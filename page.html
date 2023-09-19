@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <title>Wordle Clone</title>
+</head>
+<body>
+  <h1>Manga Guessing Game</h1>
+
+  <div id="board">
+    <input type="text" id="guess" list="manga-titles" placeholder="Guess the manga">
+    <datalist id="manga-titles">
+      <!-- This will be populated by JavaScript -->
+    </datalist>
+
+  </div>
+
+  <button onclick="checkGuess()">Check</button>
+
+  <table id="infoTable">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Year Published</th>
+        <th>Demographic</th>
+        <th>Genre</th>
+        <th>Serialization Period</th>
+        <th>Serialization Magazine</th>
+        <th>Author</th>
+        <th>Volumes</th>
+        <th>Chapters</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Entries will go here -->
+    </tbody>
+  </table>
+
+  <script src="script.js"></script>
+</body>
+</html>
