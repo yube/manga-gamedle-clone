@@ -7,6 +7,8 @@
 <body>
   <h1>Manga Guessing Game</h1>
 
+  <div id="livesDiv">Lives remaining: <span id="lives">🤍🤍🤍</span></div>
+
   <div id="board">
     <input type="text" id="guess" list="manga-titles" placeholder="Guess the manga">
     <datalist id="manga-titles">
@@ -15,18 +17,23 @@
 
   </div>
 
-  <button onclick="checkGuess()">Check</button>
+  <button onclick="checkGuess()" id="guessButton">Guess</button>
+  <button onclick="resetGame()" id="resetButton">Reset Game</button>
+
+
 
   <table id="infoTable">
     <thead>
       <tr>
         <th>Title</th>
-        <th>Year Published</th>
+        <th>Start Year</th>
+        <th>End Year</th>
         <th>Demographic</th>
         <th>Genre</th>
-        <th>Serialization Period</th>
+        <th>Serialization Style</th>
         <th>Serialization Magazine</th>
         <th>Author</th>
+        <th>Artist</th>
         <th>Volumes</th>
         <th>Chapters</th>
       </tr>

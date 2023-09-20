@@ -1,62 +1,103 @@
+let gameIsActive = true;
+let lives = 3;
+
 const mangaList = [
   {
     title: "Naruto",
-    yearPublished: 1999,
+    yearBegin: 1999,
+    yearEnd: 2014,
     demographic: "Shonen",
     genre: ["Action", "Adventure", "Supernatural"],
-    serializationPeriod: "Weekly",
+    serializationStyle: "Weekly",
     serializationMagazine: "Weekly Shonen Jump",
     author: "Masashi Kishimoto",
+    artist: "Masashi Kishimoto",
     volumes: 72,
     chapters: 700
   },
   {
     title: "Sailor Moon",
-    yearPublished: 1991,
+    yearBegin: 1991,
+    yearEnd: 1997,
     demographic: "Shojo",
     genre: ["Drama", "Fantasy", "Mahou Shoujo", "Romance"],
-    serializationPeriod: "Monthly",
+    serializationStyle: "Monthly",
     serializationMagazine: "Nakayoshi",
     author: "Naoko Takeuchi",
+    artist: "Naoko Takeuchi",
     volumes: 18,
     chapters: 52
   },
   {
     title: "Bleach",
-    yearPublished: 2001,
+    yearBegin: 2001,
+    yearEnd: 2016,
     demographic: "Shonen",
     genre: ["Action", "Adventure", "Supernatural"],
-    serializationPeriod: "Weekly",
+    serializationStyle: "Weekly",
     serializationMagazine: "Weekly Shonen Jump",
     author: "Tite Kubo",
+    artist: "Tite Kubo",
     volumes: 74,
     chapters: 706
   },
   {
     title: "Jojo",
-    yearPublished: 1986,
+    yearBegin: 1986,
+    yearEnd: "Ongoing",
     demographic: "Shonen",
     genre: ["Action", "Adventure"],
-    serializationPeriod: "Weekly",
+    serializationStyle: "Weekly",
     serializationMagazine: "Weekly Shonen Jump",
     author: "Hirohiko Araki",
+    artist: "Hirohiko Araki",
     volumes: 132,
     chapters: 954
   },
   {
     title: "Baki",
-    yearPublished: 1991,
+    yearBegin: 1991,
+    yearEnd: "Ongoing",
     demographic: "Shonen",
     genre: ["Action", "Sports"],
-    serializationPeriod: "Weekly",
+    serializationStyle: "Weekly",
     serializationMagazine: "Weekly Shonen Champion",
     author: "Keishuke Itagaki",
+    artist: "Keishuke Itagaki",
     volumes: 149,
     chapters: 1312
+  },
+  {
+    title: "Dr. Stone",
+    yearBegin: 2017,
+    yearEnd: 2022,
+    demographic: "Shonen",
+    genre: ["Action", "Adventure", "Comedy", "Sci-Fi"],
+    serializationStyle: "Weekly",
+    serializationMagazine: "Weekly Shonen Jump",
+    author: "Riichiro Inagaki",
+    artist: "Boichi",
+    volumes: 26,
+    chapters: 232
   }
 
   // Add more manga entries here
 ];
+
+function displayLives() {
+  const livesElement = document.getElementById("lives");
+  let hearts = '';
+  for (let i = 0; i < lives; i++) {
+    hearts += '❤️';
+  }
+  for (let i = 0; i < (3 - lives); i++) {
+    hearts += '🤍';
+  }
+  livesElement.innerHTML = hearts;
+}
+
+displayLives();
+
 
 function populateDataList() {
   const dataList = document.getElementById("manga-titles");
@@ -68,14 +109,38 @@ function populateDataList() {
   });
 }
 
-// Call the function to populate the datalist
 populateDataList();
 
-const randomIndex = Math.floor(Math.random() * mangaList.length);
-const mangaToGuess = mangaList[randomIndex];
+function getRandomManga() {
+  const randomIndex = Math.floor(Math.random() * mangaList.length);
+  return mangaList[randomIndex];
+}
+
+let mangaToGuess = getRandomManga();
+
+function resetGame() {
+  gameIsActive = true;
+  mangaToGuess = getRandomManga();  // Generate a new manga to guess
+  
+  const input = document.getElementById("guess");
+  const guessButton = document.getElementById("guessButton");
+  
+  input.disabled = false;
+  guessButton.disabled = false;
+  
+  lives = 3;  // Reset lives
+  displayLives();  // Update displayed lives
+  
+  // Clear the previous game's information table
+  const tableBody = document.getElementById("infoTable").getElementsByTagName('tbody')[0];
+  tableBody.innerHTML = "";
+}
 
 function checkGuess() {
+  if (!gameIsActive) return;
+
   const input = document.getElementById("guess");
+  const guessButton = document.getElementById("guessButton");
   const guess = input.value.toLowerCase();
 
   const validTitles = mangaList.map(manga => manga.title.toLowerCase());
@@ -93,18 +158,46 @@ function checkGuess() {
     cell.innerText = guessedManga[key];
 
     // Special handling for each category
-    if (key === 'yearPublished') {
-      if (guessedManga[key] === mangaToGuess[key]) {
+    if (key === 'yearBegin') {
+      const currentYear = new Date().getFullYear();
+      const correctYear = mangaToGuess[key] === "Ongoing" ? currentYear : mangaToGuess[key];
+      const guessedYear = guessedManga[key] === "Ongoing" ? currentYear : guessedManga[key];
+      
+      if (guessedYear === correctYear) {
         cell.style.backgroundColor = 'green';
-      } else {
-        const diff = guessedManga[key] - mangaToGuess[key];
-        if (Math.abs(diff) <= 10) {
+      } else if (typeof guessedYear === "number" && typeof correctYear === "number") {
+        const diff = guessedYear - correctYear;
+        if (Math.abs(diff) <= 5) {
           cell.style.backgroundColor = 'yellow';
           cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;
         } else {
           cell.style.backgroundColor = 'red';
-          cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;          
+          cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;
         }
+      } else {
+        cell.style.backgroundColor = 'red';
+      }
+      return;
+    }
+
+    if (key === 'yearEnd') {
+      const currentYear = new Date().getFullYear();
+      const correctYear = mangaToGuess[key] === "Ongoing" ? currentYear : mangaToGuess[key];
+      const guessedYear = guessedManga[key] === "Ongoing" ? currentYear : guessedManga[key];
+      
+      if (guessedYear === correctYear) {
+        cell.style.backgroundColor = 'green';
+      } else if (typeof guessedYear === "number" && typeof correctYear === "number") {
+        const diff = guessedYear - correctYear;
+        if (Math.abs(diff) <= 5) {
+          cell.style.backgroundColor = 'yellow';
+          cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;
+        } else {
+          cell.style.backgroundColor = 'red';
+          cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;
+        }
+      } else {
+        cell.style.backgroundColor = 'red';
       }
       return;
     }
@@ -168,8 +261,32 @@ function checkGuess() {
   });
 
   if (guess === mangaToGuess.title.toLowerCase()) {
-    alert("Congratulations! You've guessed the manga!");
-  }
+    setTimeout(function() {
+      alert("Congratulations! You've guessed the manga!");
+      gameIsActive = false;
+      input.disabled = true;
+      guessButton.disabled = true;
+      // Optionally reset the game or proceed to the next round
+    }, 300);
+  } else {
+    lives--;
+    displayLives();
 
+    if (lives <= 0) {
+      setTimeout(function() {
+        alert("Game over!");
+        gameIsActive = false;
+        input.disabled = true;
+        guessButton.disabled = true;
+        // Optionally reset the game
+      }, 300);
+    }
+  }
   input.value = "";
 }
+
+window.onload = function() {
+  resetGame();
+};
+
+resetGame();
