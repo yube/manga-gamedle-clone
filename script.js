@@ -80,7 +80,7 @@ function checkGuess() {
 
   const validTitles = mangaList.map(manga => manga.title.toLowerCase());
   if (!validTitles.includes(guess)) {
-    alert("Please enter a valid manga title from the list");
+    alert("Please enter a valid title from the list");
     return;
   }
 
@@ -98,7 +98,7 @@ function checkGuess() {
         cell.style.backgroundColor = 'green';
       } else {
         const diff = guessedManga[key] - mangaToGuess[key];
-        if (Math.abs(diff) <= 5) {
+        if (Math.abs(diff) <= 10) {
           cell.style.backgroundColor = 'yellow';
           cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;
         } else {
@@ -122,6 +122,38 @@ function checkGuess() {
           cell.style.backgroundColor = 'yellow';
         } else {
           cell.style.backgroundColor = 'red';
+        }
+      }
+      return;
+    }
+
+    if (key === 'volumes') {
+      if (guessedManga[key] === mangaToGuess[key]) {
+        cell.style.backgroundColor = 'green';
+      } else {
+        const diff = guessedManga[key] - mangaToGuess[key];
+        if(Math.abs(diff) <= 10) {
+          cell.style.backgroundColor = 'yellow';
+          cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;
+        } else {
+          cell.style.backgroundColor = 'red';
+          cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;          
+        }
+      }
+      return;
+    }
+
+    if (key === 'chapters') {
+      if (guessedManga[key] === mangaToGuess[key]) {
+        cell.style.backgroundColor = 'green';
+      } else {
+        const diff = guessedManga[key] - mangaToGuess[key];
+        if(Math.abs(diff) <= 50) {
+          cell.style.backgroundColor = 'yellow';
+          cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;
+        } else {
+          cell.style.backgroundColor = 'red';
+          cell.innerHTML += ` ${diff < 0 ? '&#9650;' : '&#9660;'}`;          
         }
       }
       return;
