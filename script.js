@@ -1,5 +1,6 @@
 let gameIsActive = true;
-let lives = 3;
+let lives = 5;
+let correctCategories = [];
 
 const mangaList = [
   {
@@ -90,7 +91,7 @@ function displayLives() {
   for (let i = 0; i < lives; i++) {
     hearts += '❤️';
   }
-  for (let i = 0; i < (3 - lives); i++) {
+  for (let i = 0; i < (5 - lives); i++) {
     hearts += '🤍';
   }
   livesElement.innerHTML = hearts;
@@ -128,12 +129,43 @@ function resetGame() {
   input.disabled = false;
   guessButton.disabled = false;
   
-  lives = 3;  // Reset lives
+  lives = 5;  // Reset lives
   displayLives();  // Update displayed lives
   
   // Clear the previous game's information table
   const tableBody = document.getElementById("infoTable").getElementsByTagName('tbody')[0];
   tableBody.innerHTML = "";
+}
+
+function giveHint() {
+  if (!gameIsActive) return; // Don't provide hints if the game is over
+
+  // Hide the button
+  document.getElementById("hintButton").style.display = "none";
+  
+  // Calculate the list of categories that have not been guessed correctly yet
+  const unguessedCategories = Object.keys(mangaToGuess).filter(category => {
+    return !correctCategories.includes(category) && category !== 'title' && category !== 'author' && category !== 'artist';
+  });
+  
+  // Pick a random unguessed category to provide a hint for
+  const randomCategoryIndex = Math.floor(Math.random() * unguessedCategories.length);
+  const hintCategory = unguessedCategories[randomCategoryIndex];
+  
+  // Provide a hint based on the category
+  const tableBody = document.getElementById("infoTable").getElementsByTagName('tbody')[0];
+  const newRow = tableBody.insertRow();
+  
+  Object.keys(mangaToGuess).forEach((key, i) => {
+    const cell = newRow.insertCell(i);
+    if (key === hintCategory) {
+      cell.innerText = mangaToGuess[hintCategory];
+      cell.style.backgroundColor = 'green'; // You can choose another color for hints
+    } else {
+      cell.innerText = " "; // Empty cell for all other categories
+      cell.style.backgroundColor = 'red'
+    }
+  });
 }
 
 function checkGuess() {
@@ -255,6 +287,10 @@ function checkGuess() {
 
     if (guessedManga[key] === mangaToGuess[key]) {
       cell.style.backgroundColor = 'green';
+      // Add the category to the list of correct categories if it's not already there
+      if (!correctCategories.includes(key)) {
+        correctCategories.push(key);
+      }
     } else {
       cell.style.backgroundColor = 'red';
     }
