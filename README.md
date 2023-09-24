@@ -12,3 +12,4 @@ to do:
  * more lives
  * show what the correct guess was
  * show cover?
+ * synonyms for guessing
