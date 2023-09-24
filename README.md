@@ -9,3 +9,6 @@ done:
 
 to do:
  * make this thing look pretty (never)
+ * more lives
+ * show what the correct guess was
+ * show cover?
