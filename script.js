@@ -1,5 +1,5 @@
 let gameIsActive = true;
-let lives = 5;
+let lives = 10;
 let correctCategories = [];
 
 let mangaList = [];
@@ -35,7 +35,7 @@ function displayLives() {
   for (let i = 0; i < lives; i++) {
     hearts += '❤️';
   }
-  for (let i = 0; i < (5 - lives); i++) {
+  for (let i = 0; i < (10 - lives); i++) {
     hearts += '🤍';
   }
   livesElement.innerHTML = hearts;
@@ -73,7 +73,7 @@ function resetGame() {
   input.disabled = false;
   guessButton.disabled = false;
   
-  lives = 5;  // Reset lives
+  lives = 10;  // Reset lives
   displayLives();  // Update displayed lives
   
   // Clear the previous game's information table
@@ -197,11 +197,10 @@ function checkGuess() {
 
     if (lives <= 0) {
       setTimeout(function() {
-        alert("Game over!");
+        alert("Game over!The manga was " + mangaToGuess.title);
         gameIsActive = false;
         input.disabled = true;
         guessButton.disabled = true;
-        // Optionally reset the game
       }, 300);
     }
   }
