@@ -13,3 +13,5 @@ to do:
  * make this thing look pretty (never)
  * show cover?
  * synonyms for guessing
+ * instead of alert just have the game over/you won on screen
+ * pixelated cover? that gets clearer? like that movie guessing game with the reviews
