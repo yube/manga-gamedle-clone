@@ -15,3 +15,4 @@ to do:
  * synonyms for guessing
  * instead of alert just have the game over/you won on screen
  * pixelated cover? that gets clearer? like that movie guessing game with the reviews
+ * unique daily guess
