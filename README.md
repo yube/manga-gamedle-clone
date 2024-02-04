@@ -18,3 +18,4 @@ to do:
  * instead of alert just have the game over/you won on screen
  * pixelated cover? that gets clearer? like that movie guessing game with the reviews
  * unique daily guess
+ * use your anilist/mal for the data maybe
