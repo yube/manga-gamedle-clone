@@ -1,5 +1,7 @@
 # manga-gamedle-clone
 
+https://mangaguess.netlify.app/page.html
+
 done:
  * finish colouring conditions for the other columns
  * lives system/limited number of guesses
